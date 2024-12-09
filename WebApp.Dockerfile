@@ -2,11 +2,11 @@ FROM node:20-alpine AS frontend
 RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
 WORKDIR /home/node/app 
-COPY ./frontend/package*.json ./  
+COPY --chown=node:node ./frontend/package*.json ./  
 USER node
 RUN npm ci  
-COPY --chown=node:node ./frontend/ ./frontend  
-COPY --chown=node:node ./static/ ./static  
+COPY ./frontend/ ./frontend  
+COPY ./static/ ./static  
 WORKDIR /home/node/app/frontend
 RUN NODE_OPTIONS=--max_old_space_size=8192 npm run build
   
